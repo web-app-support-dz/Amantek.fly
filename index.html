@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AmanTek Fly - Livraison de Colis entre Voyageurs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/about.css">
+  <link rel="stylesheet" href="css/how.css">
+  <link rel="stylesheet" href="css/listings.css">
+  <link rel="stylesheet" href="css/faq.css">
+  <link rel="stylesheet" href="css/contact.css">
+  <link rel="stylesheet" href="css/legal.css">
+  <link rel="stylesheet" href="css/footer.css">
+  
+</head>
+<body>
+<div id="app">
+
+  <!-- ===============================================================
+       NAVBAR
+  ================================================================ -->
+  <nav style="position:fixed;top:0;left:0;right:0;z-index:50;background:#ffffff;box-shadow:0 2px 12px rgba(0,196,159,.15);border-bottom:2px solid rgba(0,196,159,.1);">
+    <div class="container">
+      <div style="display:flex;align-items:center;justify-content:space-between;height:4rem;">
+
+        <!-- Logo -->
+        <div style="display:flex;align-items:center;gap:.5rem;cursor:pointer;" onclick="go('home')">
+          <img src="assets/images/logoo.jpg" class="logo" alt="AmanTek Fly">
+          <div style="font-size:.7rem;color:#6b7280;display:none;" id="logo-sub">Application de livraison collaborative</div>
+        </div>
+
+       <!-- Desktop nav -->
+    <div class="nav-desktop">
+      <button onclick="go('home')" class="nav-link" style="color:#334155;font-weight:500;font-size:.95rem;">Accueil</button>
+      <button onclick="go('about')" class="nav-link" style="color:#334155;font-weight:500;font-size:.95rem;">À Propos</button>
+      <button onclick="go('how')" class="nav-link" style="color:#334155;font-weight:500;font-size:.95rem;">Comment ça marche</button>
+      <button onclick="go('listings')" class="nav-link" style="color:#334155;font-weight:500;font-size:.95rem;">Annonces</button>
+      <button onclick="go('faq')" class="nav-link" style="color:#334155;font-weight:500;font-size:.95rem;">FAQ</button>
+      <button onclick="go('contact')" class="nav-link" style="color:#334155;font-weight:500;font-size:.95rem;">Contact</button>
+    </div>
+
+    <!-- Auth -->
+    <div class="nav-auth">
+      <button onclick="toggleLang()" style="display:flex;align-items:center;gap:.5rem;padding:.35rem .7rem;border:1.5px solid #e8eef4;border-radius:9999px;background:#fff;font-size:.82rem;font-weight:600;color:#334155;cursor:pointer;">
+        <span id="lang-flag">🇫🇷</span><span id="lang-text">FR</span>
+      </button>
+      <button onclick="go('login')" style="padding:.45rem 1rem;border:none;background:none;color:#00C49F;font-weight:500;border-radius:.5rem;">Connexion</button>
+      <button onclick="regGo()" class="btn-primary" style="padding:.5rem 1.2rem;font-size:.9rem;">S'inscrire</button>
+    </div>
+
+    <!-- Hamburger -->
+    <button class="nav-mobile-btn" onclick="toggleMenu()" style="border:none;background:none;padding:.4rem;border-radius:.5rem;">
+      <i data-lucide="menu" id="ico-menu" style="width:24px;height:24px;color:#334155"></i>
+      <i data-lucide="x" id="ico-close" style="width:24px;height:24px;color:#334155;display:none"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div id="mobile-menu" class="mobile-menu" style="position:fixed;top:4.5rem;right:0;bottom:0;width:280px;background:#fff;z-index:999;padding:2rem 1.5rem;box-shadow:-4px 0 20px rgba(0,0,0,.1);overflow-y:auto;">
+  <div style="display:flex;flex-direction:column;gap:.5rem;">
+    <button onclick="go('home')" style="text-align:left;padding:.75rem;background:none;border:none;font-size:1rem;color:#334155;border-radius:.5rem;">Accueil</button>
+    <button onclick="go('about')" style="text-align:left;padding:.75rem;background:none;border:none;font-size:1rem;color:#334155;border-radius:.5rem;"> À Propos</button>
+    <button onclick="go('how')" style="text-align:left;padding:.75rem;background:none;border:none;font-size:1rem;color:#334155;border-radius:.5rem;"> Comment ça marche</button>
+    <button onclick="go('listings')" style="text-align:left;padding:.75rem;background:none;border:none;font-size:1rem;color:#334155;border-radius:.5rem;"> Annonces</button>
+    <button onclick="go('faq')" style="text-align:left;padding:.75rem;background:none;border:none;font-size:1rem;color:#334155;border-radius:.5rem;"> FAQ</button>
+    <button onclick="go('contact')" style="text-align:left;padding:.75rem;background:none;border:none;font-size:1rem;color:#334155;border-radius:.5rem;"> Contact</button>
+    <hr style="border:none;border-top:1px solid #e8eef4;margin:.5rem 0"/>
+    <button onclick="go('login')" style="text-align:left;padding:.75rem;background:none;border:none;font-size:1rem;color:#00C49F;font-weight:600;border-radius:.5rem;">Connexion</button>
+    <button onclick="regGo()" class="btn-primary" style="padding:.75rem;font-size:1rem;border-radius:.75rem;">S'inscrire</button>
+    <button onclick="toggleLang()" style="display:flex;align-items:center;gap:.5rem;padding:.75rem;background:none;border:none;font-size:.9rem;color:#6b7280;">
+      <span id="m-lang-flag">🇫🇷</span><span id="m-lang-text">Français</span>
+    </button>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toasts" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:.5rem;"></div>
+
+<section id="page-home" class="page-section active">
+<!-- Hero -->
+    <div class="hero-gradient" style="min-height:100vh;padding-top:4rem;">
+      <div class="container" style="padding-top:3rem;padding-bottom:4rem;">
+        <div class="grid-auto grid-2-lg" style="align-items:center;">
+
+          <!-- Left -->
+          <div class="slide-up" style="display:flex;flex-direction:column;gap:2rem;">
+            <div style="display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1rem;background:#fff;border-radius:9999px;box-shadow:0 1px 3px rgba(0,0,0,.08);width:fit-content;">
+              <span style="width:.5rem;height:.5rem;background:#0088FF;border-radius:9999px;" class="pulse-ring"></span>
+              <span style="font-size:.85rem;font-weight:500;color:#6b7280;">🇩🇿 Solution 100% Algérienne</span>
+            </div>
+            <h1 id="hero-title" style="font-size:clamp(2rem,5vw,3.5rem);font-weight:800;color:#002B5B;line-height:1.2;">
+              Livraison de Colis <span style="background:linear-gradient(135deg,#00C49F 0%,#008E74 40%,#0088FF 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;">Sécurisée</span> <span style="background:linear-gradient(135deg,#0088FF 0%,#00c49f 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;">&amp; Économique</span>
+            </h1>
+            <p id="hero-subtitle" style="font-size:1.1rem;color:#002b5b;line-height:1.7;max-width:36rem;">
+              AmanTek Fly connecte expéditeurs et voyageurs pour une livraison de colis économique, rapide et sécurisée à travers l'international.
+            </p>
+            <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+              <button onclick="regGo()" class="btn-primary" style="padding:1rem 2rem;font-size:1rem;gap:.5rem;">
+                <i data-lucide="package" style="width:18px;height:18px"></i>
+                Envoyer un Colis
+              </button>
+              <button onclick="regGo()" class="btn-secondary" style="padding:1rem 2rem;font-size:1rem;gap:.5rem;">
+                <i data-lucide="luggage" style="width:18px;height:18px"></i>
+                Devenir Voyageur
+              </button>
+            </div>
+            <!-- Stats -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;padding-top:1rem;">
+              <div class="stat-card" style="border-radius:1rem;padding:1rem;text-align:center;">
+                <div id="stat-parcels" style="font-size:1.75rem;font-weight:800;" class="gradient-text">5,500+</div>
+                <div style="font-size:.8rem;color:#6b7280;margin-top:.2rem;">Colis livrés</div>
+              </div>
+              <div class="stat-card" style="border-radius:1rem;padding:1rem;text-align:center;">
+                <div id="stat-travelers" style="font-size:1.75rem;font-weight:800;" class="gradient-text">3,500+</div>
+                <div style="font-size:.8rem;color:#6b7280;margin-top:.2rem;">Voyageurs actifs</div>
+              </div>
+              <div class="stat-card" style="border-radius:1rem;padding:1rem;text-align:center;">
+                <div id="stat-cities" style="font-size:1.75rem;font-weight:800;" class="gradient-text">10</div>
+                <div style="font-size:.8rem;color:#6b7280;margin-top:.2rem;">Les aéroports internationaux</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right illustration -->
+          <div class="hero-illo floating">
+            <div style="background:#fff;border-radius:1.5rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.2);padding:2rem;position:relative;">
+              <!-- Route -->
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+                <div style="text-align:center;">
+                  <div style="width:4rem;height:4rem;background:#cff7ec;border-radius:1rem;display:flex;align-items:center;justify-content:center;margin-bottom:.4rem;font-size:2rem;">📦</div>
+                  <span style="font-size:.85rem;font-weight:500;color:#334155;">Alger</span>
+                </div>
+                <div style="flex:1;padding:0 1rem;position:relative;">
+                  <div style="height:.25rem;background:linear-gradient(90deg,#00C49F,#0088FF);border-radius:9999px;"></div>
+                  <div style="position:absolute;top:-1.1rem;left:50%;transform:translateX(-50%);font-size:1.5rem;">✈️</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="width:4rem;height:4rem;background:#eaf6ff;border-radius:1rem;display:flex;align-items:center;justify-content:center;margin-bottom:.4rem;font-size:2rem;">🎁</div>
+                  <span style="font-size:.85rem;font-weight:500;color:#334155;">Paris</span>
+                </div>
+              </div>
+              <!-- Trip cards -->
+              <div style="background:#f8fafc;border-radius:1rem;padding:1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:1rem;">
+                <div class="av-em" style="width:3rem;height:3rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;flex-shrink:0;">NC</div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;color:#1e293b;font-size:.95rem;">Ahlem .CH</div>
+                  <div style="font-size:.8rem;color:#6b7280;">Alger → Paris • Demain 14:00</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="color:#00C49F;font-weight:700;font-size:.95rem;">9500 DA/kg</div>
+                  <div style="font-size:.75rem;color:#6b7280;">Disponible: 5kg</div>
+                </div>
+              </div>
+              <div style="background:#f8fafc;border-radius:1rem;padding:1rem;display:flex;align-items:center;gap:1rem;">
+                <div class="av-cy" style="width:3rem;height:3rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;flex-shrink:0;">HC</div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;color:#1e293b;font-size:.95rem;">Mouhamed Ayoub .H</div>
+                  <div style="font-size:.8rem;color:#6b7280;">Alger → Madrid • 25 Jan</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="color:#00C49F;font-weight:700;font-size:.95rem;">25000 DA/kg</div>
+                  <div style="font-size:.75rem;color:#6b7280;">Disponible: 8kg</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ <!-- Features / Pourquoi choisir AmanTek Fly -->
+<section id="why-section" style="position:relative;overflow:hidden;padding:5.5rem 0 6rem;background:linear-gradient(180deg,#ffffff 0%,#f2fbf9 55%,#eef7ff 100%);">
+
+  <div class="why-glow g1"></div>
+  <div class="why-glow g2"></div>
+
+  <div class="container" style="position:relative;z-index:1;">
+
+    <div style="text-align:center;margin-bottom:4rem;">
+      <h2 style="font-size:2.2rem;font-weight:800;color:#002B5B;margin-bottom:.75rem;line-height:1.2;">
+        Pourquoi choisir <span style="background:linear-gradient(135deg,#00C49F,#0088FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">AmanTek Fly</span> ?
+      </h2>
+      <p style="color:#6b7280;font-size:1.05rem;max-width:42rem;margin:0 auto;">Notre plateforme révolutionne la livraison de colis à l'étranger avec une approche collaborative et économique.</p>
+    </div>
+
+    <div class="why-track">
+
+      <!-- Image de fond : chemin pointillé + avion (derrière les cartes) -->
+      <div class="why-path">
+        <img src="assets/images/steps-bg-brand.png" alt="" aria-hidden="true">
+        <!-- pour la version violette d'origine : img/steps-bg.png -->
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i data-lucide="piggy-bank"></i></div>
+          <h3>Économique</h3>
+          <p>Économisez 40-70% par rapport aux services traditionnels de livraison.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon"><i data-lucide="shield-check"></i></div>
+          <h3>Sécurisé</h3>
+          <p>Vérification d'identité, système de notation et assurance incluse.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon"><i data-lucide="zap"></i></div>
+          <h3>Rapide</h3>
+          <p>Livraison express grâce aux voyageurs qui se déplacent quotidiennement.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon"><i data-lucide="leaf"></i></div>
+          <h3>Écologique</h3>
+          <p>Optimisez les trajets existants et réduisez l'empreinte carbone.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+    <!-- ============ How it works preview ============ -->
+<section id="how-section" style="position:relative;overflow:hidden;padding:5.5rem 0 6rem;background:linear-gradient(135deg,#f8fafc,#eaf6ff);">
+
+  <div class="how-glow g1"></div>
+  <div class="how-glow g2"></div>
+
+  <div class="container" style="position:relative;z-index:1;">
+
+    <div style="text-align:center;margin-bottom:4rem;">
+      <h2 class="how-title">Comment <span>ça marche</span> ?</h2>
+      <p style="color:#6b7280;font-size:1.05rem;margin:0;">En 7 étapes simples, envoyez ou transportez des colis.</p>
+    </div>
+
+    <div class="how-steps">
+
+      <!-- ligne pointillée + avion qui voyage -->
+      <div class="how-line">
+        <div class="how-plane">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <div class="how-card" data-n="1">
+          <div class="how-ico"><i data-lucide="user-plus"></i></div>
+          <h3>Inscrivez-vous</h3>
+          <p>Créez votre compte et vérifiez votre identité.</p>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <div class="how-card" data-n="2">
+          <div class="how-ico"><i data-lucide="megaphone"></i></div>
+          <h3>Publiez</h3>
+          <p>Annonce de colis ou trajet disponible.</p>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <div class="how-card" data-n="3">
+          <div class="how-ico"><i data-lucide="link"></i></div>
+          <h3>Connectez</h3>
+          <p>Trouvez le match parfait pour votre envoi.</p>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <div class="how-num">4</div>
+        <div class="how-card" data-n="4">
+          <div class="how-ico"><i data-lucide="package-check"></i></div>
+          <h3>Livrez</h3>
+          <p>Remise sécurisée et paiement garanti.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:3.5rem;position:relative;z-index:1;">
+      <button onclick="go('how')" class="btn-primary how-btn" style="padding:1rem 2rem;font-size:1rem;gap:.5rem;">
+        En savoir plus
+        <i data-lucide="arrow-right" style="width:18px;height:18px"></i>
+      </button>
+    </div>
+  </div>
+
+</section>
+
+  <!-- ============ Testimonials ============ -->
+<div id="tm-section" style="position:relative;overflow:hidden;padding:5.5rem 0 6rem;background:linear-gradient(180deg,#ffffff 0%,#f4fbfa 100%);">
+
+  <div class="tm-glow g1"></div>
+  <div class="tm-glow g2"></div>
+
+  <div class="container" style="position:relative;z-index:1;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <h2 class="tm-title">Ce que disent nos <span>utilisateurs</span></h2>
+      <p style="color:#6b7280;font-size:1.05rem;margin:0;">Des milliers de personnes nous font confiance chaque jour.</p>
+    </div>
+
+    <div class="tm-grid">
+
+      <!-- T1 -->
+      <div class="tm-card">
+        <svg class="tm-quote" viewBox="0 0 24 24" fill="currentColor"><path d="M9.6 4C5.9 5.5 3 9 3 13.4V20h7.2v-7.2H6.6c0-2.6 1.5-4.5 3.6-5.6L9.6 4zm10.8 0C16.7 5.5 13.8 9 13.8 13.4V20H21v-7.2h-3.6c0-2.6 1.5-4.5 3.6-5.6L20.4 4z"/></svg>
+        <div class="tm-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="tm-text">"J'ai envoyé des documents importants de Oran à Nice chez mes parents en moins de 48h. Service incroyable et le voyageur était très professionnel !"</p>
+        <div class="tm-user">
+          <div class="tm-av a1">AB</div>
+          <div><div class="tm-name">Amina B.</div><div class="tm-city">Oran</div></div>
+        </div>
+      </div>
+
+      <!-- T2 (mise en avant) -->
+      <div class="tm-card featured">
+        <svg class="tm-quote" viewBox="0 0 24 24" fill="currentColor"><path d="M9.6 4C5.9 5.5 3 9 3 13.4V20h7.2v-7.2H6.6c0-2.6 1.5-4.5 3.6-5.6L9.6 4zm10.8 0C16.7 5.5 13.8 9 13.8 13.4V20H21v-7.2h-3.6c0-2.6 1.5-4.5 3.6-5.6L20.4 4z"/></svg>
+        <div class="tm-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="tm-text">"En tant que voyageur régulier entre Constantine et Paris, AmanTek Fly me permet de rentabiliser mes trajets. J'ai déjà gagné plus de 50,000 DA !"</p>
+        <div class="tm-user">
+          <div class="tm-av a2">YM</div>
+          <div><div class="tm-name">Youcef M.</div><div class="tm-city">Constantine</div></div>
+        </div>
+      </div>
+
+      <!-- T3 -->
+      <div class="tm-card">
+        <svg class="tm-quote" viewBox="0 0 24 24" fill="currentColor"><path d="M9.6 4C5.9 5.5 3 9 3 13.4V20h7.2v-7.2H6.6c0-2.6 1.5-4.5 3.6-5.6L9.6 4zm10.8 0C16.7 5.5 13.8 9 13.8 13.4V20H21v-7.2h-3.6c0-2.6 1.5-4.5 3.6-5.6L20.4 4z"/></svg>
+        <div class="tm-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="tm-text">"J'ai envoyé un cadeau à ma mère en France pour son anniversaire. Prix imbattable et livraison rapide. Je recommande à 100% !"</p>
+        <div class="tm-user">
+          <div class="tm-av a3">FK</div>
+          <div><div class="tm-name">Fatima B.</div><div class="tm-city">Blida</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+    <!-- ============ CTA ============ -->
+<div id="cta-section" style="position:relative;overflow:hidden;padding:5.5rem 0 6rem;background:linear-gradient(135deg,#00C49F,#0088FF);">
+
+  <div class="cta-orb o1"></div><div class="cta-orb o2"></div><div class="cta-orb o3"></div><div class="cta-orb o4"></div>
+  <div class="cta-plane"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+
+  <div class="container" style="text-align:center;position:relative;z-index:1;">
+    <h2 class="cta-title">Prêt à commencer ?</h2>
+    <p class="cta-sub">Rejoignez des milliers d'Algériens qui font confiance à AmanTek Fly pour leurs envois.</p>
+
+    <div class="cta-card">
+      <form onsubmit="quickRegister(event)" class="cta-form">
+        <div class="cta-field">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+          <input type="email" placeholder="Votre email" required>
+        </div>
+        <div class="cta-field">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          <input type="tel" placeholder="Votre numéro de téléphone" required>
+        </div>
+        <label class="cta-check">
+          <input type="checkbox" required>
+          <span>J'accepte les <button type="button" onclick="go('cgu')" class="cta-link">CGU</button> et la <button type="button" onclick="go('privacy')" class="cta-link">Politique de confidentialité</button></span>
+        </label>
+        <button type="submit" class="cta-submit">
+          Inscription rapide
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="cta-stores">
+      <a href="#" class="cta-store">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        App Store
+      </a>
+      <a href="#" class="cta-store">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3.18 1.05a1.5 1.5 0 00-.68 1.28v19.34a1.5 1.5 0 00.68 1.28l.07.06 10.83-10.83v-.26L3.25.99l-.07.06z" fill="#4FC3F7"/><path d="M17.7 15.5l-3.62-3.63v-.25l3.62-3.62.08.05 4.3 2.44c1.22.7 1.22 1.83 0 2.53L17.78 15.44l-.08.06z" fill="#FFD54F"/><path d="M17.78 15.44L14.08 11.75 3.18 22.65c.4.43 1.07.48 1.82.05l12.78-7.26" fill="#F06292"/><path d="M17.78 8.06L5 .8C4.25.37 3.58.42 3.18.85l10.9 10.9 3.7-3.7z" fill="#A5D6A7"/></svg>
+        Google Play
+      </a>
+    </div>
+  </div>
+</div>
+</section><!-- fin de #page-home -->
+
+ <!-- ===============================================================
+       PAGE : À PROPOS
+  ================================================================ -->
+  <section id="page-about" class="page-section">
+    <div class="page-top">
+
+      <!-- ============ HERO ============ -->
+      <div class="ab-hero">
+        <div class="ab-glow g1"></div><div class="ab-glow g2"></div><div class="ab-dots"></div>
+        <svg class="ab-path" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 340 C 200 100, 380 100, 520 240 S 820 390, 980 230 S 1280 30, 1470 120"/></svg>
+        <div class="ab-plane"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+        <div class="container">
+          <div class="ab-hero-in">
+            <div style="flex:1;min-width:260px;">
+              <div class="ab-bar"></div>
+              <h1>À Propos d'<span>AmanTek Fly</span> </h1>
+              <p> Une solution algérienne innovante qui s'appuie sur un modèle logistique numérique pour l'expédition internationale de colis, transformant les trajets quotidiens en opportunités économiques réelles.</p>
+            </div>
+            <div class="ab-logo-wrap">
+              <div class="ab-logo-ring"></div>
+              <div class="ab-logo-card">
+                <img src="assets/images/le logo.png" alt="AmanTek Fly">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Histoire ============ -->
+      <div class="ab-story">
+        <div class="ab-glow g1"></div>
+        <div class="container" style="position:relative;z-index:1;">
+          <div class="grid-auto grid-2-lg" style="align-items:center;gap:3.5rem;">
+            <div class="ab-rev">
+              <h2 class="ab-sec-title">Notre Histoire</h2>
+              <div class="ab-text">
+                <p>AmanTek Fly est née d'une observation simple : <strong>chaque jour, des milliers d'Algériens voyagent à travers le monde avec de la place disponible dans leurs bagages, tandis que d'autres cherchent des solutions abordables pour envoyer leurs colis.</strong> </p>
+                <p>Inspirée par le concept international de <strong>"LUGGAGESHARE"</strong>, notre plateforme a été <strong>centièrement adaptée au marché algérien,</strong> en tenant compte des spécificités locales : <strong>paiement en dinars, conformité aux réglementations douanières algériennes, et couverture de plusieurs pays.</strong></p>
+                <p>Notre mission est de construire une solution de livraison collaborative en Algérie, en mettant en relation voyageurs et expéditeurs de manière simple, sécurisée et efficace.</p>
+              </div>
+            </div>
+            <div class="ab-stats-box ab-rev">
+              <div class="ab-stats">
+                <div class="ab-stat"><div class="ico"><i data-lucide="calendar-days"></i></div><div class="num ab-grad" data-count="2026" data-dec="0" data-suf="" data-sep="0">2026</div><div class="lbl">Année de création</div></div>
+                <div class="ab-stat"><div class="ico"><i data-lucide="plane"></i></div><div class="num ab-grad" data-count="10" data-dec="0" data-suf="" data-sep="0">10</div><div class="lbl">Aéroports internationaux</div></div>
+                <div class="ab-stat"><div class="ico"><i data-lucide="package-check"></i></div><div class="num ab-grad" data-count="5" data-dec="0" data-suf="K+" data-sep="0">5K+</div><div class="lbl">Colis livrés</div></div>
+                <div class="ab-stat"><div class="ico"><i data-lucide="star"></i></div><div class="num ab-grad" data-count="4.9" data-dec="1" data-suf="" data-sep="0">4.9</div><div class="lbl">Note moyenne</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Équipe ============ -->
+      <div class="ab-team">
+        <div class="ab-glow g1"></div>
+        <div class="container" style="position:relative;z-index:1;">
+          <div class="ab-rev" style="text-align:center;margin-bottom:3.5rem;">
+            <span class="ab-badge">Notre Équipe</span>
+            <h2 style="font-size:2.1rem;font-weight:800;color:#002B5B;margin:0 0 .75rem;">Les Personnes Derrière <span class="ab-grad">AmanTek</span> </h2>
+            <p style="color:#6b7280;font-size:1.02rem;max-width:40rem;margin:0 auto;line-height:1.7;">Une équipe passionnée et complémentaire pour révolutionner la livraison collaborative en Algérie.</p>
+          </div>
+          <div class="ab-member ab-rev">
+            <div class="ab-avatar"><div class="pic">NC</div><div class="dot"></div></div>
+            <h3>Nour el houda Cherifi</h3>
+            <p class="ab-role">CEO &amp; fondatrice</p>
+            <div class="ab-div"></div>
+            <p class="desc">Experte en GRH &amp; Développeuse</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Vision + Marché ============ -->
+      <div class="ab-vm">
+        <div class="ab-glow g1"></div>
+        <div class="container" style="position:relative;z-index:1;">
+          <div class="grid-auto grid-2-lg" style="gap:2.2rem;align-items:stretch;">
+            <div class="ab-card ab-rev">
+              <div class="ab-card-head"><div class="ab-icon"><i data-lucide="eye"></i></div><h2>Notre Vision</h2></div>
+              <div class="ab-text">
+                <p>Nous croyons en une Algérie connectée où chaque voyage devient une opportunité d'entraide et de gain mutuel.</p>
+                <p>Notre mission est de démocratiser l'accès à la livraison de colis en proposant une alternative économique, écologique et humaine aux services traditionnels.</p>
+                <p>D'ici 2026, nous visons à devenir la première plateforme de livraison collaborative en Algérie et dans le Maghreb.</p>
+              </div>
+            </div>
+            <div class="ab-card ab-rev">
+              <div class="ab-card-head"><div class="ab-icon"><i data-lucide="trending-up"></i></div><h2>Le Marché &amp; L'Opportunité Stratégique</h2></div>
+              <div class="ab-text">
+                <p><strong>AmanTek Fly</strong> opère dans le secteur de <strong> la logistique numérique et de la livraison collaborative (P2P). </strong>Le projet cible un marché structurellement demandeur et non saturé, reliant l'Algérie à l'Europe (avec un focus initial sur l'axe Algérie-France/Espagne). L'opportunité de marché repose sur des indicateurs officiels en forte croissance :</p>
+                <p><strong>Un vide concurrentiel à combler :</strong> Bien que la numérisation ait porté la capacité du centre de tri international d'Algérie <strong>Poste à 50 000 colis par jour</strong> les solutions traditionnelles restent excessivement chères ou lentes pour les particuliers et les petits commerçants. Notre étude de marché révèle que <strong>que plus de 70% des expéditeurs souffrent du manque de confiance et de la lenteur des voies d'expédition actuelles.</strong> </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Légal ============ -->
+      <div class="ab-legal">
+        <div class="ab-glow" style="width:300px;height:300px;background:rgba(0,136,255,.12);bottom:-100px;right:-60px;"></div>
+        <div style="max-width:56rem;margin:0 auto;padding:0 1rem;position:relative;z-index:1;">
+          <div class="ab-legal-card ab-rev">
+            <div class="ab-legal-ico"><i data-lucide="file-check-2"></i></div>
+            <h3>Conformité Légale</h3>
+            <p>AmanTek Fly opère en totale conformité avec les réglementations douanières algériennes. Nous collaborons avec les autorités pour garantir des envois légaux et sécurisés.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+<!-- ===============================================================
+       PAGE : COMMENT ÇA MARCHE
+  ================================================================ -->
+  <!-- ===============================================================
+       PAGE : COMMENT ÇA MARCHE
+  ================================================================ -->
+  <section id="page-how" class="page-section">
+    <div class="page-top">
+
+      <!-- ============ HERO ============ -->
+      <div class="hw-hero">
+        <div class="hw-glow g1"></div><div class="hw-glow g2"></div><div class="hw-dots"></div>
+        <svg class="hw-path" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 340 C 200 100, 380 100, 520 240 S 820 390, 980 230 S 1280 30, 1470 120"/></svg>
+        <div class="hw-plane-h"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+        <div class="container">
+          <div class="hw-bar"></div>
+          <h1>Comment <span>ça marche</span> ?</h1>
+          <p>Un processus simple et sécurisé pour envoyer ou transporter des colis.</p>
+        </div>
+      </div>
+
+      <!-- ============ ÉTAPES ============ -->
+      <div class="hw-steps-sec">
+        <div class="hw-glow g1"></div><div class="hw-glow g2"></div>
+        <div class="hw-wrap">
+          <div class="hw-timeline" id="hw-timeline">
+
+            <div class="hw-line"><div class="hw-fill"></div>
+              <div class="hw-plane"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+            </div>
+
+            <!-- 1 -->
+            <div class="hw-step">
+              <div class="hw-node">1</div>
+              <div class="hw-card hw-rev" data-n="1">
+                <h3>🔐 Inscription &amp; Vérification sécurisée</h3>
+                <p>Créez un compte unique pour expéditeurs et voyageurs. Votre identité est vérifiée via une pièce d'identité officielle (CIN ou passeport) et une confirmation par SMS — pour garantir la sécurité de toute la communauté.</p>
+                <div class="hw-chips">
+                  <span class="hw-chip a">📱 Vérification SMS</span>
+                  <span class="hw-chip a">🪪 Pièce d'identité</span>
+                  <span class="hw-chip a">🔒 Données sécurisées</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="hw-step">
+              <div class="hw-node">2</div>
+              <div class="hw-card hw-rev" data-n="2">
+                <h3>📦 Publication de la demande ou du trajet</h3>
+                <p class="hw-role"><strong>Expéditeur :</strong> Décrivez votre colis avec précision — type, poids, dimensions, photos — et indiquez les villes de départ et d'arrivée ainsi que la date souhaitée.</p>
+                <p class="hw-role v"><strong>Voyageur :</strong> Publiez votre trajet avec les détails de votre itinéraire, la date et le poids disponible dans vos bagages.</p>
+              </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="hw-step">
+              <div class="hw-node">3</div>
+              <div class="hw-card hw-rev" data-n="3">
+                <h3>🤖 Mise en correspondance intelligente</h3>
+                <p>L'algorithme AmanTek analyse les trajets, les poids, les dates et les évaluations pour vous proposer automatiquement les meilleures correspondances disponibles — sans recherche manuelle fastidieuse.</p>
+              </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="hw-step">
+              <div class="hw-node">4</div>
+              <div class="hw-card hw-rev" data-n="4">
+                <h3>🛡️ Accord mutuel &amp; Sécurisation du colis</h3>
+                <p>Une fois l'accord établi, le colis est sécurisé selon sa destination — assurance internationale pour les envois à l'étranger, locale pour les trajets internes. Le paiement est mis en séquestre jusqu'à confirmation de la livraison.</p>
+                <div class="hw-chips">
+                  <span class="hw-chip b">💳 CIB / Carte bancaire</span>
+                  <span class="hw-chip b">📮 Algérie Poste</span>
+                  <span class="hw-chip b">🔐 Paiement en séquestre</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="hw-step">
+              <div class="hw-node">5</div>
+              <div class="hw-card hw-rev" data-n="5">
+                <h3>📍 Livraison &amp; Suivi en temps réel</h3>
+                <p>Suivez votre colis étape par étape grâce au N° TRK intégré dans l'application, avec des notifications instantanées à chaque étape — de la prise en charge jusqu'à la remise au destinataire.</p>
+              </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="hw-step">
+              <div class="hw-node">6</div>
+              <div class="hw-card hw-rev" data-n="6">
+                <h3>💸 Transfert automatique des gains</h3>
+                <p>Après confirmation de la réception, les gains sont automatiquement transférés au voyageur et à l'intermédiaire — sans délai, sans complication. Une transparence totale sur chaque transaction.</p>
+              </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="hw-step">
+              <div class="hw-node">7</div>
+              <div class="hw-card hw-rev" data-n="7">
+                <h3>⭐ Évaluation mutuelle</h3>
+                <p>L'expéditeur et le voyageur s'évaluent mutuellement après chaque livraison — construisant ainsi une communauté de confiance où chaque avis reflète une expérience réelle.</p>
+                <div class="hw-stars"><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Articles interdits + Douanes ============ -->
+      <div class="hw-info">
+        <div class="hw-glow g1"></div><div class="hw-glow g2"></div>
+        <div class="hw-info-grid">
+
+          <!-- Articles interdits -->
+          <div class="hw-alert danger hw-rev">
+            <div class="hw-ahead">
+              <div class="hw-aico"><i data-lucide="circle-slash"></i></div>
+              <h3>Articles Interdits</h3>
+            </div>
+            <p>Pour des raisons légales et de sécurité, les articles suivants sont strictement interdits :</p>
+            <ul id="prohib-list">
+              <li style="display:flex;align-items:center;gap:.5rem;"><span>❌</span> Drogues et substances illicites</li>
+              <li style="display:flex;align-items:center;gap:.5rem;"><span>❌</span> Armes et munitions</li>
+              <li style="display:flex;align-items:center;gap:.5rem;"><span>❌</span> Produits contrefaits</li>
+              <li style="display:flex;align-items:center;gap:.5rem;"><span>❌</span> Matières dangereuses</li>
+              <li style="display:flex;align-items:center;gap:.5rem;"><span>❌</span> Documents frauduleux</li>
+              <li style="display:flex;align-items:center;gap:.5rem;"><span>❌</span> Animaux vivants</li>
+            </ul>
+          </div>
+
+          <!-- Douanes -->
+          <div class="hw-alert douane hw-rev">
+            <div class="hw-ahead">
+              <div class="hw-aico"><i data-lucide="info"></i></div>
+              <h3>Conseils Douaniers</h3>
+            </div>
+            <p>Il est obligatoire pour les expéditeurs de respecter les réglementations douanières :</p>
+            <ul>
+              <li style="display:flex;align-items:center;gap:.5rem;"><span>📋</span> Déclarez toujours le contenu exact de vos colis</li>
+              <li style="display:flex;align-items:center;gap:.5rem;"><span>💰</span> Respectez les limites de valeur (200€ pour l'UE)</li>
+              <li style="display:flex;align-items:center;gap:.5rem;"><span>📄</span> Conservez les factures pour les biens neufs</li>
+            </ul>
+            <a href="https://www.douane.gov.dz" target="_blank" rel="noopener noreferrer" class="hw-link">
+              Site officiel des Douanes Algériennes
+              <i data-lucide="external-link" style="width:16px;height:16px"></i>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ===============================================================
+       PAGE : ANNONCES
+  ================================================================ -->
+  <!-- ===============================================================
+       PAGE : ANNONCES
+  ================================================================ -->
+  <section id="page-listings" class="page-section">
+    <div class="page-top">
+
+      <!-- ===== Hero choix de rôle ===== -->
+      <div class="ls-hero">
+        <div class="ls-glow g1"></div><div class="ls-glow g2"></div><div class="ls-dots"></div>
+        <svg class="ls-path" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 340 C 200 100, 380 100, 520 240 S 820 390, 980 230 S 1280 30, 1470 120"/></svg>
+        <div class="ls-plane-h"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+        <div class="container" style="text-align:center;">
+          <p class="ls-eyebrow">Bienvenue sur AmanTek Fly </p>
+          <h1>Comment souhaitez-vous participer ?</h1>
+          <p class="lead">Choisissez votre rôle pour commencer votre inscription et rejoindre la première plateforme de livraison collaborative en Algérie.</p>
+
+          <div class="ls-roles">
+
+            <!-- Bouton Envoyer un colis -->
+            <button onclick="regGo('sender')" class="ls-role sender">
+              <div class="emo">📦</div>
+              <div class="t">Envoyer un colis</div>
+              <div class="d">Envoyez vos colis vers l'étranger via nos voyageurs vérifiés</div>
+              <div class="cta">S'inscrire →</div>
+            </button>
+
+            <!-- Bouton Devenir Voyageur -->
+            <button onclick="regGo('traveler')" class="ls-role traveler">
+              <div class="emo">✈️</div>
+              <div class="t">Devenir Voyageur</div>
+              <div class="d">Rentabilisez vos voyages en transportant des colis en toute sécurité</div>
+              <div class="cta">S'inscrire →</div>
+            </button>
+
+          </div>
+
+          <p class="ls-login">
+            Déjà inscrit ? <button onclick="go('login')">Se connecter</button>
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== Annonces actives ===== -->
+      <div class="ls-list">
+        <div class="ls-glow g1"></div><div class="ls-glow g2"></div>
+        <div class="container" style="position:relative;z-index:1;">
+          <!-- Titre section + filtres -->
+          <div class="ls-head">
+            <div>
+              <h2>Annonces récentes</h2>
+              <p>Voyageurs disponibles et colis en attente</p>
+            </div>
+            <div class="ls-filters">
+              <button id="f-all"     class="ls-pill" onclick="filterList('all')"     style="background:#00C49F;color:#fff;">Tous</button>
+              <button id="f-trips"   class="ls-pill" onclick="filterList('trip')"    style="background:#fff;color:#334155;">✈️ Voyageurs</button>
+              <button id="f-parcels" class="ls-pill" onclick="filterList('parcel')"  style="background:#fff;color:#334155;">📦 Colis</button>
+            </div>
+          </div>
+          <!-- Grid : chaque carte doit rester un enfant direct (div) pour filterList() -->
+          <div id="listings-grid" class="grid-auto grid-listing">
+
+            <!-- Trip : Karim M. -->
+            <div class="card search-card ls-card ls-rev" data-type="trip">
+              <div class="ls-badges"><span class="ls-b b-trip">✈️ Voyageur</span><span class="ls-b b-star">⭐ 4.9</span></div>
+              <div class="ls-user">
+                <div class="av-em ls-av">KM</div>
+                <div><div class="ls-name">Karim M.</div><div class="ls-sub">Vérifié • 23 livraisons</div></div>
+              </div>
+              <div class="ls-route">
+                <div class="ls-pt"><b>Alger</b><span>Départ</span></div>
+                <div class="ls-track"><i class="ls-dot"></i><em class="ls-fly"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></em><i class="ls-dot"></i></div>
+                <div class="ls-pt"><b>Lyon</b><span>Arrivée</span></div>
+              </div>
+              <div class="ls-meta"><span>📅 Demain, 14:00</span><span>📦 5kg disponible</span></div>
+              <div class="ls-foot"><div class="ls-price"><b>7500 DA</b><small>/kg</small></div><button onclick="toast('Demande envoyée !')" class="btn-primary ls-btn">Contacter</button></div>
+            </div>
+
+            <!-- Trip : Sara A. -->
+            <div class="card search-card ls-card ls-rev" data-type="trip">
+              <div class="ls-badges"><span class="ls-b b-trip">✈️ Voyageur</span><span class="ls-b b-star">⭐ 4.8</span></div>
+              <div class="ls-user">
+                <div class="av-cy ls-av">SA</div>
+                <div><div class="ls-name">Sara A.</div><div class="ls-sub">Vérifiée • 45 livraisons</div></div>
+              </div>
+              <div class="ls-route">
+                <div class="ls-pt"><b>Alger</b><span>Départ</span></div>
+                <div class="ls-track"><i class="ls-dot"></i><em class="ls-fly"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></em><i class="ls-dot"></i></div>
+                <div class="ls-pt"><b>Paris 🇫🇷</b><span>Arrivée</span></div>
+              </div>
+              <div class="ls-meta"><span>📅 28 Jan, 08:00</span><span>📦 10kg disponible</span></div>
+              <div class="ls-foot"><div class="ls-price"><b>30000 DA</b><small>/kg</small></div><button onclick="toast('Demande envoyée !')" class="btn-primary ls-btn">Contacter</button></div>
+            </div>
+
+            <!-- Parcel : Fatima B. -->
+            <div class="card search-card ls-card ls-rev" data-type="parcel">
+              <div class="ls-badges"><span class="ls-b b-parcel">📦 Colis</span><span class="ls-b b-urgent">🔥 Urgent</span></div>
+              <div class="ls-user">
+                <div class="av-pu ls-av">FB</div>
+                <div><div class="ls-name">Fatima B.</div><div class="ls-sub">Vérifiée • 8 envois</div></div>
+              </div>
+              <div class="ls-route">
+                <div class="ls-pt"><b>Constantine</b><span>Départ</span></div>
+                <div class="ls-track"><i class="ls-dot"></i><em class="ls-fly"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></em><i class="ls-dot"></i></div>
+                <div class="ls-pt"><b>Tunis</b><span>Arrivée</span></div>
+              </div>
+              <div class="ls-desc"><div class="ls-desc-t">📄 Documents importants</div><div class="ls-chips"><span>0.5 kg</span><span>Avant le 26 Jan</span></div></div>
+              <div class="ls-foot"><div class="ls-price"><b>2500 DA</b></div><button onclick="toast('Offre envoyée !')" class="btn-secondary ls-btn">Proposer</button></div>
+            </div>
+
+            <!-- Trip : Youcef D. -->
+            <div class="card search-card ls-card ls-rev" data-type="trip">
+              <div class="ls-badges"><span class="ls-b b-trip">✈️ Voyageur</span><span class="ls-b b-star">⭐ 5.0</span></div>
+              <div class="ls-user">
+                <div class="av-or ls-av">YD</div>
+                <div><div class="ls-name">Youcef D.</div><div class="ls-sub">Vérifié • 67 livraisons</div></div>
+              </div>
+              <div class="ls-route">
+                <div class="ls-pt"><b>Sétif</b><span>Départ</span></div>
+                <div class="ls-track"><i class="ls-dot"></i><em class="ls-fly"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></em><i class="ls-dot"></i></div>
+                <div class="ls-pt"><b>Nice</b><span>Arrivée</span></div>
+              </div>
+              <div class="ls-meta"><span>📅 Chaque lundi</span><span>📦 2.5kg disponible</span></div>
+              <div class="ls-foot"><div class="ls-price"><b>7000 DA</b><small>/kg</small></div><button onclick="toast('Demande envoyée !')" class="btn-primary ls-btn">Contacter</button></div>
+            </div>
+
+            <!-- Parcel : Ahmed M. -->
+            <div class="card search-card ls-card ls-rev" data-type="parcel">
+              <div class="ls-badges"><span class="ls-b b-parcel">📦 Colis</span></div>
+              <div class="ls-user">
+                <div class="av-gr ls-av">AM</div>
+                <div><div class="ls-name">Ahmed M.</div><div class="ls-sub">Vérifié • 3 envois</div></div>
+              </div>
+              <div class="ls-route">
+                <div class="ls-pt"><b>Oran</b><span>Départ</span></div>
+                <div class="ls-track"><i class="ls-dot"></i><em class="ls-fly"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></em><i class="ls-dot"></i></div>
+                <div class="ls-pt"><b>Marseille 🇫🇷</b><span>Arrivée</span></div>
+              </div>
+              <div class="ls-desc"><div class="ls-desc-t">🎁 Cadeaux pour famille</div><div class="ls-chips"><span>3 kg</span><span>Flexible</span></div></div>
+              <div class="ls-foot"><div class="ls-price"><b>5000 DA</b></div><button onclick="toast('Offre envoyée !')" class="btn-secondary ls-btn">Proposer</button></div>
+            </div>
+
+            <!-- Trip : Nadia H. -->
+            <div class="card search-card ls-card ls-rev" data-type="trip">
+              <div class="ls-badges"><span class="ls-b b-trip">✈️ Voyageur</span><span class="ls-b b-star">⭐ 4.7</span></div>
+              <div class="ls-user">
+                <div class="av-in ls-av">NH</div>
+                <div><div class="ls-name">Nadia H.</div><div class="ls-sub">Vérifiée • 12 livraisons</div></div>
+              </div>
+              <div class="ls-route">
+                <div class="ls-pt"><b>Annaba</b><span>Départ</span></div>
+                <div class="ls-track"><i class="ls-dot"></i><em class="ls-fly"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></em><i class="ls-dot"></i></div>
+                <div class="ls-pt"><b>Tunis 🇹🇳</b><span>Arrivée</span></div>
+              </div>
+              <div class="ls-meta"><span>📅 30 Jan, 06:00</span><span>📦 8kg disponible</span></div>
+              <div class="ls-foot"><div class="ls-price"><b>9500 DA</b><small>/kg</small></div><button onclick="toast('Demande envoyée !')" class="btn-primary ls-btn">Contacter</button></div>
+            </div>
+
+          </div><!-- end listings-grid -->
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===============================================================
+       PAGE : FAQ
+  ================================================================ -->
+  <section id="page-faq" class="page-section">
+    <div class="page-top">
+
+      <div class="fq-hero">
+        <div class="fq-glow g1"></div><div class="fq-glow g2"></div><div class="fq-dots"></div>
+        <svg class="fq-path" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 340 C 200 100, 380 100, 520 240 S 820 390, 980 230 S 1280 30, 1470 120"/></svg>
+        <div class="fq-plane"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+        <div class="container">
+          <div class="fq-bar"></div>
+          <h1>Questions <span>Fréquentes</span></h1>
+          <p>Tout ce que vous devez savoir sur AmanTek Fly.</p>
+        </div>
+      </div>
+
+      <div class="fq-list-sec">
+        <div class="fq-glow g1"></div><div class="fq-glow g2"></div>
+        <div class="fq-list">
+
+          <div class="fq-item fq-rev">
+            <button onclick="toggleFaq(this)" class="fq-q">
+              <div class="fq-qin">
+                <span class="fq-ico">💳</span>
+                <span class="fq-qt">Comment fonctionne le paiement ?</span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-arrow" style="width:20px;height:20px;"></i>
+            </button>
+            <div class="faq-body"><p>Le paiement s'effectue de manière sécurisée via lapp après accord entre l'expéditeur et le voyageur. Le montant est conservé temporairement grâce au <strong>système d'escrow</strong> et n'est transféré au voyageur qu'après confirmation de la réception du colis.</p><div class="fq-chips"><span>💳 CIB</span><span>📮 Algérie Poste</span><span>🔐 Paiement sécurisé</span></div>
+            </div>
+          </div>
+
+          <div class="fq-item fq-rev">
+            <button onclick="toggleFaq(this)" class="fq-q">
+              <div class="fq-qin">
+                <span class="fq-ico">🛡</span>
+                <span class="fq-qt">Mes colis sont-ils assurés ?</span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-arrow" style="width:20px;height:20px;"></i>
+            </button>
+            <div class="faq-body"><p>L'Application offre un niveau de sécurité de base grâce au système de <strong>vérification des utilisateurs</strong> et d'évaluation. Une option d'assurance supplémentaire sera proposée prochainement pour touts les colis.</p>
+            </div>
+          </div>
+
+          <div class="fq-item fq-rev">
+            <button onclick="toggleFaq(this)" class="fq-q">
+              <div class="fq-qin">
+                <span class="fq-ico">💰</span>
+                <span class="fq-qt">Combien puis-je gagner en tant que voyageur ?</span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-arrow" style="width:20px;height:20px;"></i>
+            </button>
+            <div class="faq-body"><p>Les gains dépendent de la distance, du poids du colis et du nombre de livraisons. En moyenne, un voyageur peut gagner entre <strong>2 500 DA et 40 000 DA par trajet</strong>, voire plus selon son activité.</p><div class="fq-chips"><span>📦 Par trajet</span><span>📈 Selon l'activité</span></div>
+            </div>
+          </div>
+
+          <div class="fq-item fq-rev">
+            <button onclick="toggleFaq(this)" class="fq-q">
+              <div class="fq-qin">
+                <span class="fq-ico">📦</span>
+                <span class="fq-qt">Quels types de colis puis-je envoyer ?</span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-arrow" style="width:20px;height:20px;"></i>
+            </button>
+            <div class="faq-body"><p>Vous pouvez envoyer les articles suivants :</p>
+              <div class="fq-two">
+                <div class="fq-box ok">
+                  <h4>✅ Autorisés</h4>
+                  <ul><li>📄 Documents</li><li>👕 Vêtements</li><li>🧴 Produits personnels</li><li>🎁 Cadeaux</li></ul>
+                </div>
+                <div class="fq-box no">
+                  <h4>🚫 Interdits</h4>
+                  <ul><li>❌ Produits illégaux</li><li>❌ Armes</li><li>❌ Drogues</li><li>❌ Matières dangereuses</li></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fq-item fq-rev">
+            <button onclick="toggleFaq(this)" class="fq-q">
+              <div class="fq-qin">
+                <span class="fq-ico">🪪</span>
+                <span class="fq-qt">Comment vérifiez-vous l'identité des utilisateurs ?</span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-arrow" style="width:20px;height:20px;"></i>
+            </button>
+            <div class="faq-body"><p>Nous vérifions les utilisateurs via un processus en 3 étapes :</p>
+              <div class="fq-steps">
+                <div class="fq-st"><span class="n">1</span><span class="e">📋</span><span class="t">Téléchargement d'une pièce d'identité (CIN ou passeport)</span></div>
+                <div class="fq-st"><span class="n">2</span><span class="e">📱</span><span class="t">Vérification du numéro de téléphone par SMS</span></div>
+                <div class="fq-st"><span class="n">3</span><span class="e">✅</span><span class="t">Validation manuelle par l'administration AmanTek</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fq-item fq-rev">
+            <button onclick="toggleFaq(this)" class="fq-q">
+              <div class="fq-qin">
+                <span class="fq-ico">⚖️</span>
+                <span class="fq-qt">Que faire en cas de litige ?</span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-arrow" style="width:20px;height:20px;"></i>
+            </button>
+            <div class="faq-body"><p>En cas de litige, contactez le support via a l'Application. Notre équipe analysera la situation — <strong>messages, preuves, confirmations</strong> — afin de prendre une décision équitable dans les meilleurs délais. Le paiement en séquestre protège les deux parties.</p><div class="fq-chips"><span>📩 Via l'application</span><span>⏱️ Réponse rapide</span></div>
+            </div>
+          </div>
+
+          <div class="fq-item fq-rev">
+            <button onclick="toggleFaq(this)" class="fq-q">
+              <div class="fq-qin">
+                <span class="fq-ico">📊</span>
+                <span class="fq-qt">Quels sont les frais de service ?</span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-arrow" style="width:20px;height:20px;"></i>
+            </button>
+            <div class="faq-body"><p>l'Application applique une commission sur chaque transaction réussie, <strong>généralement entre 20% et 50%</strong>. Les frais sont affichés clairement avant validation — aucun frais caché, aucune surprise.</p><div class="fq-chips"><span>💡 Affiché avant paiement</span><span>🚫 Pas de frais cachés</span></div>
+            </div>
+          </div>
+
+          <div class="fq-item fq-rev">
+            <button onclick="toggleFaq(this)" class="fq-q">
+              <div class="fq-qin">
+                <span class="fq-ico">📍</span>
+                <span class="fq-qt">Puis-je suivre mon colis ?</span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-arrow" style="width:20px;height:20px;"></i>
+            </button>
+            <div class="faq-body"><p>Oui ! Un système de <strong>suivi en temps réel</strong> est disponible dans votre tableau de bord. Recevez des notifications à chaque étape — prise en charge, transit, livraison — directement sur votre téléphone.</p><div class="fq-chips"><span>🗺 GPS intégré</span><span>🔔 Notifications push</span></div>
+            </div>
+          </div>
+
+          <div class="fq-item fq-rev">
+            <button onclick="toggleFaq(this)" class="fq-q">
+              <div class="fq-qin">
+                <span class="fq-ico">❌</span>
+                <span class="fq-qt">Puis-je annuler une demande ?</span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-arrow" style="width:20px;height:20px;"></i>
+            </button>
+            <div class="faq-body"><p><strong>Avant acceptation :</strong> Annulation libre et sans frais. <br><strong>Après acceptation :</strong> Des conditions spécifiques s'appliquent selon l'état de la livraison. Consultez nos Conditions Générales pour les détails.</p>
+            </div>
+          </div>
+
+          <div class="fq-item fq-rev">
+            <button onclick="toggleFaq(this)" class="fq-q">
+              <div class="fq-qin">
+                <span class="fq-ico">🔒</span>
+                <span class="fq-qt">Comment garantissez-vous la sécurité ?</span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-arrow" style="width:20px;height:20px;"></i>
+            </button>
+            <div class="faq-body"><p>La sécurité sur AmanTek Fly repose sur 4 piliers :</p>
+              <div class="fq-four">
+                <div><span>🪪</span><span>Vérification des utilisateurs</span></div>
+                <div><span>⭐️</span><span>Système de notation</span></div>
+                <div><span>🔐</span><span>Paiement sécurisé (escrow)</span></div>
+                <div><span>🛡</span><span>Modération des annonces</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+  </section>
+
+  <!-- ===============================================================
+       PAGE : CONTACT
+  ================================================================ -->
+  <section id="page-contact" class="page-section">
+    <div class="page-top">
+
+      <div class="ct-hero">
+        <div class="ct-glow g1"></div><div class="ct-glow g2"></div><div class="ct-dots"></div>
+        <svg class="ct-path" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 340 C 200 100, 380 100, 520 240 S 820 390, 980 230 S 1280 30, 1470 120"/></svg>
+        <div class="ct-plane"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+        <div class="container">
+          <div class="ct-bar"></div>
+          <h1>Contactez-<span>nous</span></h1>
+          <p>Notre équipe est là pour vous aider.</p>
+        </div>
+      </div>
+
+      <div class="ct-sec">
+        <div class="ct-glow g1"></div><div class="ct-glow g2"></div>
+        <div class="container">
+          <div class="grid-auto grid-2-lg ct-grid">
+
+            <!-- Form -->
+            <div class="ct-rev">
+              <h2 class="ct-title">Envoyez-nous un message</h2>
+              <div class="ct-form-card">
+                <form onsubmit="handleContact(event)" class="ct-form">
+                  <div><label class="ct-lbl">Nom complet</label><input type="text" required class="form-input" placeholder="Votre nom"></div>
+                  <div><label class="ct-lbl">Email</label><input type="email" required class="form-input" placeholder="votre@email.com"></div>
+                  <div>
+                    <label class="ct-lbl">Sujet</label>
+                    <select required class="form-input">
+                      <option value="">Sélectionnez un sujet</option>
+                      <option>Question générale</option><option>Support technique</option>
+                      <option>Problème de paiement</option><option>Signaler un litige</option>
+                      <option>Partenariat</option><option>Presse / Médias</option>
+                    </select>
+                  </div>
+                  <div><label class="ct-lbl">Message</label><textarea rows="5" required class="form-input" style="resize:none;" placeholder="Décrivez votre demande..."></textarea></div>
+                  <button type="submit" class="btn-primary ct-submit">
+                    Envoyer le message
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Info -->
+            <div class="ct-rev">
+              <h2 class="ct-title">Informations de contact</h2>
+              <div class="ct-cards">
+                <div class="ct-info ct-rev">
+                  <div class="icon-box" style="background:#cff7ec;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="mail" style="width:22px;height:22px;color:#00C49F"></i></div>
+                  <div><div class="t">Email</div><div class="v"><a href="mailto:amana.express.support@gmail.com">amantekfly@gmail.com</a></div><div class="s">Réponse sous 24h</div></div>
+                </div>
+                <div class="ct-info ct-rev">
+                  <div class="icon-box" style="background:#eaf6ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="phone" style="width:22px;height:22px;color:#00C49F"></i></div>
+                  <div><div class="t">Téléphone</div><div class="v">+213 (0) 668 791 627</div><div class="s">Lun-Ven, 9h-18h</div></div>
+                </div>
+                <div class="ct-info ct-rev">
+                  <div class="icon-box" style="background:#f3e8ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="map-pin" style="width:22px;height:22px;color:#00C49F"></i></div>
+                  <div><div class="t">Adresse</div><div class="v">Rue Sidi Abdelkader</div><div class="v">Blida Centre, 09000</div></div>
+                </div>
+              </div>
+              <!-- Social -->
+              <div class="ct-social">
+                <h3>Suivez-nous</h3>
+                <div class="ct-social-row">
+                  <a href="#" class="ct-soc" aria-label="Facebook"><svg width="22" height="22" fill="#6b7280" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                  <a href="#" class="ct-soc" aria-label="Instagram"><svg width="22" height="22" fill="#6b7280" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                  <a href="#" class="ct-soc" aria-label="X"><svg width="22" height="22" fill="#6b7280" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </section>
+  
+  <!-- ===============================================================
+       PAGE : CONNEXION
+  ================================================================ -->
+  <section id="page-login" class="page-section">
+    <div class="hero-gradient" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:5rem 1rem 2rem;">
+      <div style="max-width:26rem;width:100%;">
+        <div style="background:#fff;border-radius:1.5rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.2);padding:2.5rem;">
+          <div style="text-align:center;margin-bottom:2rem;">
+            <h1 style="font-size:1.75rem;font-weight:700;color:#002B5B;margin-bottom:.4rem;">Connexion</h1>
+            <p style="color:#6b7280;">Content de vous revoir !</p>
+          </div>
+          <form onsubmit="handleLogin(event)" style="display:flex;flex-direction:column;gap:1.25rem;">
+            <div><label style="display:block;font-size:.85rem;font-weight:500;color:#334155;margin-bottom:.25rem;">Email ou téléphone</label><input type="text" required class="form-input" style="width:100%;padding:.75rem 1rem;border-radius:.75rem;border:1px solid #e8eef4;" placeholder="votre@email.com"></div>
+            <div>
+              <label style="display:block;font-size:.85rem;font-weight:500;color:#334155;margin-bottom:.25rem;">Mot de passe</label>
+              <div style="position:relative;">
+                <input id="login-pw" type="password" required class="form-input" style="width:100%;padding:.75rem 3rem .75rem 1rem;border-radius:.75rem;border:1px solid #e8eef4;" placeholder="••••••••">
+                <button type="button" onclick="togglePw('login-pw')" style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:#6b7280;font-size:1.1rem;">👁</button>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
+              <label style="display:flex;align-items:center;gap:.4rem;font-size:.85rem;color:#6b7280;cursor:pointer;"><input type="checkbox" style="accent-color:#00C49F;"> Se souvenir de moi</label>
+              <a href="#" style="font-size:.85rem;color:#00C49F;font-weight:500;">Mot de passe oublié ?</a>
+            </div>
+            <button type="submit" class="btn-primary" style="padding:.875rem;font-size:1rem;width:100%;border-radius:.75rem;">Se connecter</button>
+          </form>
+          <p style="text-align:center;margin-top:1.5rem;font-size:.875rem;color:#6b7280;">Pas encore de compte ? <button onclick="regGo()" style="color:#00C49F;font-weight:600;background:none;border:none;">S'inscrire</button></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===============================================================
+       PAGE : INSCRIPTION
+  ================================================================ -->
+  <!-- ===============================================================
+       PAGE : REGISTER — Système d'inscription 6 étapes (Voyageur / Expéditeur)
+  ================================================================ -->
+  <section id="page-register" class="page-section" style="font-family:'Cairo','Plus Jakarta Sans',sans-serif;">
+
+    <!-- ===== RÔLE SCREEN ===== -->
+    <div id="reg-role-screen" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;background:linear-gradient(135deg,#008E74 0%,#00C49F 60%,#0088FF 100%);">
+      <div style="text-align:center;margin-bottom:36px;">
+        <div style="width:80px;height:80px;background:rgba(255,255,255,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;border:2px solid rgba(255,255,255,0.25);">
+          <svg width="44" height="44" viewBox="0 0 60 60" fill="none"><path d="M30 4C30 4 10 22 10 38C10 50 19 56 30 56C41 56 50 50 50 38C50 22 30 4 30 4Z" stroke="white" stroke-width="3" fill="none"/><path d="M30 16C30 16 18 28 18 38C18 45 23 50 30 50C37 50 42 45 42 38C42 28 30 16 30 16Z" fill="rgba(255,255,255,0.3)"/><path d="M30 28C27 28 24 31 24 34C24 37 27 40 30 40C33 40 36 37 36 34C36 31 33 28 30 28Z" fill="white"/></svg>
+        </div>
+        <h1 style="color:#fff;font-size:26px;font-weight:900;margin-bottom:6px;">AmanTek Fly</h1>
+        <p style="color:rgba(255,255,255,0.75);font-size:14px;">Choisissez votre rôle pour commencer / اختر صفتك للبدء</p>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:580px;">
+        <div id="reg-card-traveler" onclick="regSelectRole('traveler')" style="background:rgba(255,255,255,0.10);backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,0.22);border-radius:20px;padding:32px 28px;cursor:pointer;text-align:center;width:240px;transition:all .3s;color:#fff;">
+          <div style="font-size:44px;margin-bottom:12px;">✈️</div>
+          <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,0.6);">Voyageur International</div>
+        </div>
+        <div id="reg-card-sender" onclick="regSelectRole('sender')" style="background:rgba(255,255,255,0.10);backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,0.22);border-radius:20px;padding:32px 28px;cursor:pointer;text-align:center;width:240px;transition:all .3s;color:#fff;">
+          <div style="font-size:44px;margin-bottom:12px;">📦</div>
+          <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,0.6);">Expéditeur de Colis</div>
+        </div>
+      </div>
+      <button id="reg-start-btn" onclick="regStartForm()" style="margin-top:28px;padding:13px 44px;background:#fff;color:#008E74;border:none;border-radius:40px;font-family:'Cairo','Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:none;">ابدأ التسجيل ←</button>
+      <p style="margin-top:20px;color:rgba(255,255,255,0.6);font-size:13px;">
+        عودة للموقع؟ <button onclick="go('home')" style="color:#fff;background:none;border:none;cursor:pointer;font-family:'Cairo','Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;text-decoration:underline;">← Retour</button>
+      </p>
+    </div>
+
+    <!-- ===== FORM SCREEN ===== -->
+    <div id="reg-form-screen" style="display:none;">
+      <div style="background:linear-gradient(90deg,#008E74,#00C49F);padding:18px 24px 22px;color:#fff;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button onclick="regShowRoleScreen()" style="background:rgba(255,255,255,0.12);border:none;color:#fff;border-radius:8px;padding:6px 14px;cursor:pointer;font-family:'Cairo','Plus Jakarta Sans',sans-serif;font-size:13px;display:flex;align-items:center;gap:6px;">← رجوع</button>
+          <div>
+            <h2 id="reg-form-title" style="font-size:18px;font-weight:700;"></h2>
+            <p style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:3px;">6 خطوات للتسجيل الكامل</p>
+          </div>
+        </div>
+      </div>
+      <div style="padding:16px 16px 0;background:#fff;border-bottom:1px solid #e8eef4;">
+        <div id="reg-progress-steps" style="display:flex;align-items:flex-start;justify-content:center;gap:0;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;"></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 2px;font-size:11.5px;color:#6b7280;">
+          <span id="reg-step-label"></span>
+          <span id="reg-step-counter"></span>
+        </div>
+      </div>
+      <div id="reg-steps-container" style="max-width:660px;margin:0 auto;padding:20px 16px 40px;"></div>
+    </div>
+
+    <!-- Modal -->
+    <div id="reg-modal" onclick="regCloseModal(event)" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+      <div style="background:#fff;border-radius:16px;max-width:540px;width:100%;padding:26px;max-height:80vh;overflow-y:auto;">
+        <h4 id="reg-modal-title" style="font-size:16px;font-weight:800;margin-bottom:14px;color:#008E74;"></h4>
+        <div id="reg-modal-body" style="font-size:12.5px;line-height:1.8;color:#002B5B;"></div>
+        <button onclick="regCloseModal()" style="margin-top:14px;display:block;width:100%;padding:13px;border-radius:40px;border:none;cursor:pointer;font-family:'Cairo','Plus Jakarta Sans',sans-serif;font-size:14.5px;font-weight:800;background:linear-gradient(135deg,#00C49F,#0088FF);color:#fff;">حسنًا، فهمت</button>
+      </div>
+    </div>
+
+  </section>
+ <!-- ===============================================================
+       PAGE : CONDITIONS GÉNÉRALES D'UTILISATION (CGU)
+  ================================================================ -->
+<section id="page-cgu" class="page-section">
+<div class="page-top">
+
+      <div class="cg-hero">
+        <div class="cg-glow g1"></div><div class="cg-glow g2"></div><div class="cg-dots"></div>
+        <svg class="cg-path" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 340 C 200 100, 380 100, 520 240 S 820 390, 980 230 S 1280 30, 1470 120"/></svg>
+        <div class="cg-plane"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+        <div class="container">
+          <div class="cg-doc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6M9 9h1"/></svg></div>
+          <h1>Conditions <span>Générales</span> d'Utilisation</h1>
+          <p class="cg-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Dernière mise à jour : 0ctobre 2026</p>
+        </div>
+      </div>
+
+      <div class="cg-body">
+        <div class="cg-glow g1"></div><div class="cg-glow g2"></div>
+        <div class="cg-wrap">
+
+          <!-- sommaire (grand écran) -->
+          <nav class="cg-toc" aria-label="Sommaire"><button class="cg-toc-b" data-t="cg-s1"><span>1</span>Présentation de la plateforme</button><button class="cg-toc-b" data-t="cg-s2"><span>2</span>Conditions d'accès</button><button class="cg-toc-b" data-t="cg-s3"><span>3</span>Responsabilités des utilisateurs</button><button class="cg-toc-b red" data-t="cg-s4"><span>4</span>Objets interdits</button><button class="cg-toc-b" data-t="cg-s5"><span>5</span>Paiements et transactions</button><button class="cg-toc-b" data-t="cg-s6"><span>6</span>Protection des données personnelles</button><button class="cg-toc-b" data-t="cg-s7"><span>7</span>Résolution des litiges</button><button class="cg-toc-b" data-t="cg-s8"><span>8</span>Limitation de responsabilité</button><button class="cg-toc-b" data-t="cg-s9"><span>9</span>Propriété intellectuelle</button><button class="cg-toc-b" data-t="cg-s10"><span>10</span>Modification des CGU</button><button class="cg-toc-b" data-t="cg-s11"><span>11</span>Contact</button></nav>
+
+          <div class="cg-cards">
+
+            <!-- Article 1 -->
+            <div class="cg-card cg-rev " id="cg-s1">
+              <h2><span class="cg-num">1</span> Présentation de la plateforme</h2>
+              <p>AmanTek Fly est une Application numérique de mise en relation entre expéditeurs et voyageurs pour le transport de colis entre particuliers (Peer-to-Peer). Elle est exploitée conformément aux lois algériennes en vigueur.</p>
+            </div>
+
+            <!-- Article 2 -->
+            <div class="cg-card cg-rev " id="cg-s2">
+              <h2><span class="cg-num">2</span> Conditions d'accès</h2>
+              <p>Pour utiliser AmanTek Fly, vous devez :</p><ul class="cg-list"><li><span class="ck">✓</span><span>Être âgé(e) d'au moins 18 ans</span></li><li><span class="ck">✓</span><span>Posséder une pièce d'identité valide algérienne ou internationale</span></li><li><span class="ck">✓</span><span>Fournir des informations exactes lors de l'inscription</span></li><li><span class="ck">✓</span><span>Respecter les lois algériennes et les réglementations douanières</span></li></ul>
+            </div>
+
+            <!-- Article 3 -->
+            <div class="cg-card cg-rev " id="cg-s3">
+              <h2><span class="cg-num">3</span> Responsabilités des utilisateurs</h2>
+              <p>Chaque utilisateur est responsable :</p><ul class="cg-list"><li><span class="ck">✓</span><span>Du contenu des colis qu'il confie ou transporte</span></li><li><span class="ck">✓</span><span>De la conformité des colis avec les réglementations douanières</span></li><li><span class="ck">✓</span><span>De l'exactitude des informations fournies sur la plateforme</span></li><li><span class="ck">✓</span><span>Du respect des accords passés avec les autres utilisateurs</span></li></ul>
+            </div>
+
+            <!-- Article 4 -->
+            <div class="cg-card cg-rev red" id="cg-s4">
+              <h2><span class="cg-num">4</span> Objets interdits</h2>
+              <p>Il est strictement interdit d'utiliser AmanTek Fly pour transporter :</p><ul class="cg-list"><li><span class="ck">✗</span><span>Drogues, stupéfiants et substances illicites</span></li><li><span class="ck">✗</span><span>Armes, munitions et explosifs</span></li><li><span class="ck">✗</span><span>Contrefaçons et produits piratés</span></li><li><span class="ck">✗</span><span>Devises et valeurs non déclarées dépassant les limites légales</span></li><li><span class="ck">✗</span><span>Matières dangereuses (produits chimiques, etc.)</span></li><li><span class="ck">✗</span><span>Tout produit dont le transport est interdit par la loi algérienne</span></li></ul>
+            </div>
+
+            <!-- Article 5 -->
+            <div class="cg-card cg-rev " id="cg-s5">
+              <h2><span class="cg-num">5</span> Paiements et transactions</h2>
+              <p>Les paiements sont sécurisés via notre systèmev. AmanTek Fly prélève une commission sur chaque transaction réussie. Le paiement au voyageur est déclenché après confirmation de livraison par le destinataire.</p>
+            </div>
+
+            <!-- Article 6 -->
+            <div class="cg-card cg-rev " id="cg-s6">
+              <h2><span class="cg-num">6</span> Protection des données personnelles</h2>
+              <p>AmanTek Fly collecte et traite vos données personnelles conformément aux lois algériennes. Vos données sont utilisées uniquement pour :</p><ul class="cg-list"><li><span class="ck">✓</span><span>Vérifier votre identité et valider votre compte</span></li><li><span class="ck">✓</span><span>Faciliter les transactions entre utilisateurs</span></li><li><span class="ck">✓</span><span>Améliorer nos services et l'expérience utilisateur</span></li><li><span class="ck">✓</span><span>Respecter nos obligations légales</span></li></ul>
+            </div>
+
+            <!-- Article 7 -->
+            <div class="cg-card cg-rev " id="cg-s7">
+              <h2><span class="cg-num">7</span> Résolution des litiges</h2>
+              <p>En cas de litige entre utilisateurs, AmanTek Fly intervient comme médiateur. Nous nous réservons le droit de suspendre ou supprimer tout compte qui viole nos conditions. Les litiges non résolus peuvent être portés devant les juridictions compétentes algériennes.</p>
+            </div>
+
+            <!-- Article 8 -->
+            <div class="cg-card cg-rev " id="cg-s8">
+              <h2><span class="cg-num">8</span> Limitation de responsabilité</h2>
+              <p>AmanTek Fly est une Application de mise en relation. Elle n'est pas partie aux transactions entre utilisateurs et ne peut être tenue responsable des dommages directs ou indirects résultant d'une transaction, d'un retard, d'une perte ou d'un dommage causé au colis. La responsabilité maximale d'AmanTek Fly est limitée aux frais de commission perçus sur la transaction concernée.</p>
+            </div>
+
+            <!-- Article 9 -->
+            <div class="cg-card cg-rev " id="cg-s9">
+              <h2><span class="cg-num">9</span> Propriété intellectuelle</h2>
+              <p>Le nom "AmanTek Fly", le logo, le design et tous les contenus de l'Application sont la propriété exclusive d'Amana. Toute reproduction, distribution ou utilisation sans autorisation écrite préalable est strictement interdite.</p>
+            </div>
+
+            <!-- Article 10 -->
+            <div class="cg-card cg-rev " id="cg-s10">
+              <h2><span class="cg-num">10</span> Modification des CGU</h2>
+              <p>AmanTek Fly se réserve le droit de modifier ces conditions à tout moment. Les utilisateurs seront notifiés des changements importants par email au moins 15 jours avant leur entrée en vigueur. La poursuite de l'utilisation de la l'Application après notification vaut acceptation des nouvelles conditions.</p>
+            </div>
+
+            <!-- Article 11 -->
+            <div class="cg-card cg-rev hl" id="cg-s11">
+              <h2><span class="cg-num">11</span> Contact</h2>
+              <p>Pour toute question relative aux présentes CGU, contactez-nous à : <a href="mailto:amana.express.support@gmail.com">amantekfly@gmail.com</a></p>
+            </div>
+
+            <p class="cg-note cg-rev">Ces conditions sont valables sur l'ensemble du territoire algérien et pour les transactions internationales impliquant des résidents algériens, conformément aux dispositions légales en vigueur.</p>
+
+            <div style="text-align:center;margin-top:.6rem;">
+              <button onclick="go('home')" class="cg-back">← Retour à l'accueil</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+</section>
+  <!-- CGU section ends above -->
+
+ <!-- ===============================================================
+       PAGE : POLITIQUE DE CONFIDENTIALITÉ
+  ================================================================ -->
+  <section id="page-privacy" class="page-section">
+    <div class="page-top">
+
+      <div class="pv-hero">
+        <div class="pv-glow g1"></div><div class="pv-glow g2"></div><div class="pv-dots"></div>
+        <svg class="pv-path" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 340 C 200 100, 380 100, 520 240 S 820 390, 980 230 S 1280 30, 1470 120"/></svg>
+        <div class="pv-plane"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+        <div class="container">
+          <div class="pv-shield"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <h1>Politique de <span>Confidentialité</span></h1>
+          <p class="pv-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Dernière mise à jour : octobre 2026</p>
+        </div>
+      </div>
+
+      <div class="pv-body">
+        <div class="pv-glow g1"></div><div class="pv-glow g2"></div>
+        <div class="pv-wrap">
+
+          <!-- sommaire (grand écran) -->
+          <nav class="pv-toc" id="pv-toc" aria-label="Sommaire"><button class="pv-toc-b" data-t="pv-s1"><span>1</span>Responsable du traitement</button><button class="pv-toc-b" data-t="pv-s2"><span>2</span>Données collectées</button><button class="pv-toc-b" data-t="pv-s3"><span>3</span>Finalités du traitement</button><button class="pv-toc-b" data-t="pv-s4"><span>4</span>Conservation des données</button><button class="pv-toc-b" data-t="pv-s5"><span>5</span>Vos droits</button><button class="pv-toc-b" data-t="pv-s6"><span>6</span>Cookies</button><button class="pv-toc-b" data-t="pv-s7"><span>7</span>Contact DPO</button></nav>
+
+          <div class="pv-cards">
+
+          <div class="pv-card pv-rev " id="pv-s1">
+            <h2><span class="pv-num">1</span> Responsable du traitement</h2>
+            <p>AmanTek Fly, dont le siège est situé à Rue Sidi Abdelkader, Blida, Algérie, est responsable du traitement de vos données personnelles. Contact : <a href="mailto:amana.express.support@gmail.com">amantekfly@gmail.com</a></p>
+          </div>
+
+          <div class="pv-card pv-rev " id="pv-s2">
+            <h2><span class="pv-num">2</span> Données collectées</h2>
+            <ul class="pv-list"><li><span class="ck">✓</span><span>Identité : nom, prénom, photo de profil</span></li><li><span class="ck">✓</span><span>Contact : email, numéro de téléphone</span></li><li><span class="ck">✓</span><span>Document d'identité (CIN ou passeport) pour la vérification</span></li><li><span class="ck">✓</span><span>Données de transaction et d'utilisation de la plateforme</span></li><li><span class="ck">✓</span><span>Adresse IP et données de navigation (cookies)</span></li></ul>
+          </div>
+
+          <div class="pv-card pv-rev " id="pv-s3">
+            <h2><span class="pv-num">3</span> Finalités du traitement</h2>
+            <ul class="pv-list"><li><span class="ck">✓</span><span>Création et gestion de votre compte</span></li><li><span class="ck">✓</span><span>Vérification d'identité et prévention des fraudes</span></li><li><span class="ck">✓</span><span>Mise en relation entre expéditeurs et voyageurs</span></li><li><span class="ck">✓</span><span>Traitement des paiements</span></li><li><span class="ck">✓</span><span>Amélioration de nos services</span></li><li><span class="ck">✓</span><span>Conformité légale et réglementaire</span></li></ul>
+          </div>
+
+          <div class="pv-card pv-rev " id="pv-s4">
+            <h2><span class="pv-num">4</span> Conservation des données</h2>
+            <p>Vos données sont conservées pendant toute la durée de votre compte actif, et jusqu'à 3 ans après sa désactivation pour des raisons légales. Les documents d'identité sont supprimés dans les 12 mois suivant la vérification.</p>
+          </div>
+
+          <div class="pv-card pv-rev " id="pv-s5">
+            <h2><span class="pv-num">5</span> Vos droits</h2>
+            <p>Conformément à la loi algérienne n° 18-07 relative à la protection des données personnelles, vous disposez des droits suivants :</p><ul class="pv-list"><li><span class="ck">✓</span><span>Droit d'accès à vos données</span></li><li><span class="ck">✓</span><span>Droit de rectification des données inexactes</span></li><li><span class="ck">✓</span><span>Droit à l'effacement (sous conditions)</span></li><li><span class="ck">✓</span><span>Droit d'opposition au traitement</span></li></ul><p class="tail">Pour exercer ces droits, contactez-nous à : <a href="mailto:amana.express.support@gmail.com">amantekfly@gmail.com</a></p>
+          </div>
+
+          <div class="pv-card pv-rev " id="pv-s6">
+            <h2><span class="pv-num">6</span> Cookies</h2>
+            <p>Nous utilisons des cookies strictement nécessaires au fonctionnement de la plateforme (session, préférences de langue). Aucun cookie de traçage publicitaire n'est utilisé sans votre consentement explicite.</p>
+          </div>
+
+          <div class="pv-card pv-rev hl" id="pv-s7">
+            <h2><span class="pv-num">7</span> Contact DPO</h2>
+            <p>Pour toute question relative à la protection de vos données personnelles : <a href="mailto:amana.express.support@gmail.com">amantekfly@gmail.com</a> — AmanTek Fly, Rue Sidi Abdelkader, Blida, Algérie.</p>
+          </div>
+
+            <p class="pv-note pv-rev">Cette politique est conforme à la loi algérienne n° 18-07 du 10 juin 2018 relative à la protection des personnes physiques dans le traitement des données à caractère personnel.</p>
+
+            <div style="text-align:center;margin-top:.6rem;">
+              <button onclick="go('home')" class="pv-back">← Retour à l'accueil</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===============================================================
+       COOKIE BANNER  (un seul exemplaire : l'ancien code le contenait 2 fois avec le même id)
+  ================================================================ -->
+  <div id="cookie-banner">
+    <div class="ck-left">
+      <span class="ck-emo">🍪</span>
+      <p>Nous utilisons des cookies pour améliorer votre expérience. En continuant, vous acceptez notre <button onclick="go('privacy')" class="ck-link">Politique de confidentialité</button>.</p>
+    </div>
+    <div class="ck-btns">
+      <button onclick="acceptCookies()" class="ck-acc">Accepter</button>
+      <button onclick="declineCookies()" class="ck-ref">Refuser</button>
+    </div>
+  </div>
+
+  <!-- ===============================================================
+       SECTION APPLICATION MOBILE
+  ================================================================ -->
+  <section style="background:linear-gradient(135deg,#002b5b 0%,#005bb5 50%,#002b5b 100%);padding:5rem 0;">
+    <div class="container">
+      <div style="display:grid;gap:3rem;align-items:center;" class="grid-auto grid-2-lg">
+
+        <!-- Left content -->
+        <div>
+          <span style="display:inline-block;border:1.5px solid rgba(0,136,255,.5);color:#0088FF;font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.35rem 1rem;border-radius:9999px;margin-bottom:1.5rem;">APPLICATION MOBILE</span>
+          <h2 style="font-size:2rem;font-weight:700;color:#ffffff;margin-bottom:1rem;line-height:1.2;">
+            Bientôt sur <span style="background:linear-gradient(135deg,#00C49F,#0088FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">mobile</span>
+          </h2>
+          <p style="color:#eaf6ff;font-size:1rem;line-height:1.7;margin-bottom:2rem;max-width:28rem;">
+            L'application AmanTek Fly sera bientôt disponible sur iOS et Android. Inscrivez-vous pour être notifié en premier.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+            <a href="#" style="display:flex;align-items:center;gap:.75rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:.75rem;padding:.85rem 1.4rem;color:#fff;text-decoration:none;" onmouseover="this.style.background='rgba(0,196,159,.15)';this.style.borderColor='rgba(0,196,159,.5)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.borderColor='rgba(255,255,255,.12)'">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              <div>
+                <div style="font-size:.65rem;color:#94a3b8;line-height:1;">Disponible sur</div>
+                <div style="font-size:.95rem;font-weight:700;">App Store</div>
+              </div>
+            </a>
+            <a href="#" style="display:flex;align-items:center;gap:.75rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:.75rem;padding:.85rem 1.4rem;color:#fff;text-decoration:none;" onmouseover="this.style.background='rgba(0,196,159,.15)';this.style.borderColor='rgba(0,196,159,.5)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.borderColor='rgba(255,255,255,.12)'">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3.18 1.05a1.5 1.5 0 00-.68 1.28v19.34a1.5 1.5 0 00.68 1.28l.07.06 10.83-10.83v-.26L3.25.99l-.07.06z" fill="#4FC3F7"/><path d="M17.7 15.5l-3.62-3.63v-.25l3.62-3.62.08.05 4.3 2.44c1.22.7 1.22 1.83 0 2.53L17.78 15.44l-.08.06z" fill="#FFD54F"/><path d="M17.78 15.44L14.08 11.75 3.18 22.65c.4.43 1.07.48 1.82.05l12.78-7.26" fill="#F06292"/><path d="M17.78 8.06L5 .8C4.25.37 3.58.42 3.18.85l10.9 10.9 3.7-3.7z" fill="#A5D6A7"/></svg>
+              <div>
+                <div style="font-size:.65rem;color:#94a3b8;line-height:1;">Disponible sur</div>
+                <div style="font-size:.95rem;font-weight:700;">Google Play</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+       <!-- Right — Phone mockup image -->
+        <div style="display:flex;justify-content:center;align-items:center;">
+
+          <img src="assets/images/app-mobile.png"
+               alt="Application mobile AmanTek Fly"
+               class="phone-mockup">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+<!-- ===============================================================
+       FOOTER
+  ================================================================ -->
+  <!-- ============ FOOTER ============ -->
+<footer id="ft-footer" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#002B5B 0%,#001a3a 100%);color:#94a3b8;padding:5.5rem 0 2rem;">
+
+  <div class="ft-top"></div>
+  <div class="ft-glow g1"></div><div class="ft-glow g2"></div><div class="ft-dots"></div>
+  <div class="ft-flight"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="ft-grid">
+
+      <!-- Brand -->
+      <div class="ft-col">
+        <div class="ft-brand">
+          <span class="ft-logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" transform="rotate(-45 12 12)"/></svg></span>
+          <span class="ft-name">AmanTek Fly</span>
+        </div>
+        <p class="ft-tag">✦ La première plateforme de livraison collaborative en Algérie ✦</p>
+        <div class="ft-social">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.3 0-3.9 1.4-3.9 4v2.2H8v3h2.5V21h3z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.9 8.9H3.7V20h3.2V8.9zM5.3 3.6a1.9 1.9 0 100 3.8 1.9 1.9 0 000-3.8zM20.3 20v-6.1c0-3-1.6-4.4-3.8-4.4-1.7 0-2.5.9-2.9 1.6V8.9h-3.2V20h3.2v-6c0-.3 0-.6.1-.9.3-.6.8-1.2 1.8-1.2 1.3 0 1.8 1 1.8 2.4V20h3z"/></svg></a>
+          <a href="#" aria-label="Lien"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.1 0l3-3a5 5 0 00-7.1-7.1l-1.7 1.7"/><path d="M14 11a5 5 0 00-7.1 0l-3 3a5 5 0 007.1 7.1l1.7-1.7"/></svg></a>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="ft-col">
+        <h4 class="ft-h">Navigation</h4>
+        <div class="ft-links">
+          <button class="ft-link" onclick="go('home')">Accueil</button>
+          <button class="ft-link" onclick="go('about')">À Propos</button>
+          <button class="ft-link" onclick="go('how')">Comment ça marche</button>
+          <button class="ft-link" onclick="go('listings')">Annonces</button>
+        </div>
+      </div>
+
+      <!-- Support -->
+      <div class="ft-col">
+        <h4 class="ft-h">Support</h4>
+        <div class="ft-links">
+          <button class="ft-link" onclick="go('faq')">FAQ</button>
+          <button class="ft-link" onclick="go('contact')">Contact</button>
+          <button class="ft-link" onclick="go('cgu')">Conditions d'utilisation</button>
+          <button class="ft-link" onclick="go('privacy')">Confidentialité</button>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="ft-col">
+        <h4 class="ft-h">Contact</h4>
+        <div class="ft-contact">
+          <a href="mailto:amana.express.support@gmail.com" class="ft-item">
+            <span class="ft-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
+            amantekfly@gmail.com
+          </a>
+          <a href="tel:+213668791627" class="ft-item">
+            <span class="ft-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>
+            +213 (0) 668 791 627
+          </a>
+          <div class="ft-item">
+            <span class="ft-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1116 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            Rue Sidi Abdelkader, Blida
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ft-bottom">
+      <p>© 2026 AmanTek Fly. Tous droits réservés. 🇩🇿</p>
+      <p class="ft-credit">Site by <span>Web Nour el houda CH.</span></p>
+      <button class="ft-up" aria-label="Retour en haut" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+</footer>
+<!-- ===============================================================
+     JAVASCRIPT — 100 % local, aucune lib externe
+================================================================ -->
+
+  <!-- ===================================================
+       LUCIDE ICONS — Rounded / Line / stroke 2px / 24x24
+       Identité officielle AmanTek Fly : Lucide (base rounded-style)
+  =================================================== -->
+  
+</div><!-- #app -->
+
+  <script defer src="js/home.js"></script>
+  <script defer src="js/about.js"></script>
+  <script defer src="js/how.js"></script>
+  <script defer src="js/listings.js"></script>
+  <script defer src="js/faq.js"></script>
+  <script defer src="js/contact.js"></script>
+  <script defer src="js/legal.js"></script>
+  <script defer src="js/footer.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script defer src="js/icons.js"></script>
+</body>
+</html>
